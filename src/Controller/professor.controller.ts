@@ -5,32 +5,34 @@ import { ProfessorService } from '../Service/professor.service';
 
 @Controller('professor')
 export class ProfessorController {
-        constructor(
-        private disciplinaService: ProfessorService
+   
+    constructor(
+        private professorService: ProfessorService
     ) { }
 
-    @Get('getAll')
+    @Get()
     async getAll(): Promise<Professor[]> {
-        return this.disciplinaService.getAll();
+        return this.professorService.getAll();
     }
 
-    @Get('getById/:id')
-    async getById(@Param() params): Promise<Professor> {
-        return this.disciplinaService.getById(params.id);
+    @Get(':id')
+    async getById(@Param('id') id: number): Promise<Professor> {
+        return this.professorService.getById(id);
     }
 
-    @Post('create')
+    @Post()
     async create(@Body() body: Professor) {
-        this.disciplinaService.create(body);
+        this.professorService.create(body);
     }
 
-    @Put('uptade')
-    async uptade(@Body() body: Professor): Promise<[number, Professor[]]> {
-        return this.disciplinaService.uptade(body);
+    @Put(':id')
+    async uptade(@Body() body: Professor, @Param('id') id: number): Promise<[number, Professor[]]> {
+        body.id = id;
+        return this.professorService.uptade(body);
     }
 
-    @Delete('delete/:id')
-    async delete(@Param() params) {
-        return this.disciplinaService.delete(params.id);
+    @Delete(':id')
+    async delete(@Param('id') id: number) {
+        return this.professorService.delete(id);
     }
 }

@@ -10,28 +10,29 @@ export class DisciplinaController {
         private disciplinaService: DisciplinaService
     ) { }
 
-    @Get('getAll')
+    @Get()
     async getAll(): Promise<Disciplina[]> {
         return this.disciplinaService.getAll();
     }
 
-    @Get('getById/:id')
-    async getById(@Param() params): Promise<Disciplina> {
-        return this.disciplinaService.getById(params.id);
+    @Get(':id')
+    async getById(@Param('id') id: number): Promise<Disciplina> {
+        return this.disciplinaService.getById(id);
     }
 
-    @Post('create')
+    @Post()
     async create(@Body() body: Disciplina) {
         this.disciplinaService.create(body);
     }
 
-    @Put('uptade')
-    async uptade(@Body() body: Disciplina): Promise<[number, Disciplina[]]> {
+    @Put(':id')
+    async uptade(@Body() body: Disciplina, @Param('id') id: number): Promise<[number, Disciplina[]]> {
+        body.id = id;
         return this.disciplinaService.uptade(body);
     }
 
-    @Delete('delete/:id')
-    async delete(@Param() params) {
-        return this.disciplinaService.delete(params.id);
+    @Delete(':id')
+    async delete(@Param('id') id: number) {
+        return this.disciplinaService.delete(id);
     }
 }

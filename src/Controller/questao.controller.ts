@@ -5,32 +5,34 @@ import { QuestaoService } from './../Service/questao.service';
 
 @Controller('questao')
 export class QuestaoController {
+  
     constructor(
         private disciplinaService: QuestaoService
     ) { }
 
-    @Get('getAll')
+    @Get()
     async getAll(): Promise<Questao[]> {
         return this.disciplinaService.getAll();
     }
 
-    @Get('getById/:id')
-    async getById(@Param() params): Promise<Questao> {
-        return this.disciplinaService.getById(params.id);
+    @Get(':id')
+    async getById(@Param('id') id: number): Promise<Questao> {
+        return this.disciplinaService.getById(id);
     }
 
-    @Post('create')
+    @Post()
     async create(@Body() body: Questao) {
         this.disciplinaService.create(body);
     }
 
-    @Put('uptade')
-    async uptade(@Body() body: Questao): Promise<[number, Questao[]]> {
+    @Put(':id')
+    async uptade(@Body() body: Questao, @Param('id') id: number): Promise<[number, Questao[]]> {
+        body.id = id;
         return this.disciplinaService.uptade(body);
     }
 
-    @Delete('delete/:id')
-    async delete(@Param() params) {
-        return this.disciplinaService.delete(params.id);
+    @Delete(':id')
+    async delete(@Param('id') id: number) {
+        return this.disciplinaService.delete(id);
     }
 }
